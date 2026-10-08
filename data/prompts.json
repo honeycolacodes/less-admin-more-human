@@ -1,0 +1,359 @@
+{
+  "title": "Less admin. More human.",
+  "tagline": "Four copy-and-paste AI prompts that clear the busywork, so you can show up for the conversations that actually matter.",
+  "edition": "October 2026",
+  "author": {
+    "name": "Genna Greco",
+    "role": "AI Tech Sourcer",
+    "linkedin": "https://www.linkedin.com/in/genna-greco/"
+  },
+  "cover_chips": [
+    "4 prompts + a bonus",
+    "About 5 min each",
+    "Zero setup",
+    "Works in any AI chat"
+  ],
+  "cover_footer": {
+    "lead": "Built for brains with 14 tabs open.",
+    "aside": "Skim it. Grab a prompt. Close the tab."
+  },
+  "colors": {
+    "lilac": {
+      "tint": "#DCD3FF",
+      "deep": "#4B33C9",
+      "label": "#3A2A9E"
+    },
+    "mint": {
+      "tint": "#C8F1DA",
+      "deep": "#0D6B3F",
+      "label": "#0B5A35"
+    },
+    "peach": {
+      "tint": "#FFD9C4",
+      "deep": "#A8441A",
+      "label": "#8A3612"
+    },
+    "sky": {
+      "tint": "#CFE5FF",
+      "deep": "#1F5BB3",
+      "label": "#174A94"
+    },
+    "yellow": {
+      "tint": "#FFE45C",
+      "deep": "#15141A",
+      "label": "#15141A"
+    }
+  },
+  "how_it_works": [
+    {
+      "verb": "Copy",
+      "text": "the box into ChatGPT, Claude or any AI chat."
+    },
+    {
+      "verb": "Swap",
+      "text": "every yellow part for your own details."
+    },
+    {
+      "verb": "Read",
+      "text": "the answer before you use any of it."
+    }
+  ],
+  "safety_note": "No accounts to connect. For work, use an AI tool your company approves and only share what you are allowed to share. Every example in this guide is made up, and AI still gets details wrong.",
+  "prompts": [
+    {
+      "id": "recruiter-call-prep",
+      "number": "01",
+      "color": "lilac",
+      "audience": "For job seekers",
+      "short_audience": "Job seekers",
+      "title": "Walk in with better questions.",
+      "cover_label": "Prep a recruiter call",
+      "trigger": "I have a recruiter call coming up.",
+      "cta": "Walk in with better questions",
+      "use_when": "A recruiter call is coming up and you have way too many tabs open.",
+      "time": "About 5 min",
+      "have_ready": "The job post + 5 facts about your work",
+      "prompt": "Help me prep for a recruiter call. Use only what I paste below.\n\nGive me:\n1. Five specific questions about the role, the team and how the work actually runs.\n2. Three moments from my background worth bringing up, and why each one fits.\n3. Anything important the job post leaves unclear.\n\nDo not invent experience or script my answers. Keep it to one page.\n\nJOB POST: {{job_post}}\nMY BACKGROUND: {{background}}",
+      "fields": [
+        {
+          "key": "job_post",
+          "label": "Job post",
+          "hint": "paste it here"
+        },
+        {
+          "key": "background",
+          "label": "My background",
+          "hint": "5 factual bullet points"
+        }
+      ],
+      "example": {
+        "input": "A Senior Software Engineer, GenAI role that mentions LLM evals and a hybrid schedule. Your background includes Python APIs and an internal RAG prototype.",
+        "output_label": "A strong question back",
+        "output": "“How many days a week would I be in the office, and is that set or flexible?”"
+      },
+      "next_steps": [
+        "Circle the 2 or 3 questions you actually care about",
+        "Pick one real story for each example",
+        "Say it your way on the call. No script."
+      ]
+    },
+    {
+      "id": "hiring-brief",
+      "number": "02",
+      "color": "mint",
+      "audience": "For founders + hiring managers",
+      "short_audience": "Founders",
+      "title": "Before you hire, get clear on the work.",
+      "cover_label": "Get clear on a hire",
+      "trigger": "Our job brief turned into a wish list.",
+      "cta": "Get clear on the hire",
+      "use_when": "The brief now lists everything the team might ever need.",
+      "time": "About 5 min",
+      "have_ready": "Your rough hiring notes, messy is fine",
+      "prompt": "Turn these rough hiring notes into a short brief for a sourcer.\n\nSort it into:\n1. What this person must deliver in their first 6 months.\n2. Skills that are essential to those outcomes, with a reason for each.\n3. Skills they could learn on the job.\n4. Three decisions we need to make before the search starts.\n\nTreat your suggestions as proposals, not agreed requirements. Flag anything that contradicts itself. Do not add requirements just because similar job ads list them.\n\nHIRING NOTES: {{notes}}",
+      "fields": [
+        {
+          "key": "notes",
+          "label": "Hiring notes",
+          "hint": "paste them here"
+        }
+      ],
+      "example": {
+        "input": "“We need a Product Manager for our GenAI assistant. Technical enough to write prompts and read eval results. Pricing experience would be nice. Not sure yet if they report to product or engineering.”",
+        "output_label": "A decision it should surface",
+        "output": "“Does this PM report to product or engineering? That changes who you are looking for.”"
+      },
+      "next_steps": [
+        "Settle the 3 open decisions with your team",
+        "Cut anything nobody can defend",
+        "Send the shorter brief. Clearer search, clearer pitch."
+      ]
+    },
+    {
+      "id": "adjacent-titles",
+      "number": "03",
+      "color": "peach",
+      "audience": "For sourcers + hiring teams",
+      "short_audience": "Sourcers",
+      "title": "Find a new place to look.",
+      "cover_label": "Find a new place to look",
+      "trigger": "My search keeps showing the same people.",
+      "cta": "Find a new place to look",
+      "use_when": "Every search returns the same profiles. Same work often hides under a different title.",
+      "time": "About 5 min",
+      "have_ready": "Outcomes, must-haves, titles you already search",
+      "prompt": "Suggest three adjacent job titles or backgrounds worth researching for this role.\n\nFor each one, give me:\n1. The work that could overlap with what we need.\n2. The evidence I should look for to confirm it.\n3. One question to test that overlap in a conversation.\n\nThese are search ideas, not judgments about anyone's ability. Keep every non-negotiable. Do not name people or assume a title proves a skill. Under 250 words.\n\nOUTCOMES WE NEED: {{outcomes}}\nNON-NEGOTIABLES: {{non_negotiables}}\nTITLES WE ALREADY SEARCH: {{titles}}",
+      "fields": [
+        {
+          "key": "outcomes",
+          "label": "Outcomes we need",
+          "hint": "paste"
+        },
+        {
+          "key": "non_negotiables",
+          "label": "Non-negotiables",
+          "hint": "paste"
+        },
+        {
+          "key": "titles",
+          "label": "Titles we already search",
+          "hint": "paste"
+        }
+      ],
+      "example": {
+        "input": "“Ship LLM features to production: retrieval and evals. Must have shipped an LLM feature real users rely on. We search: Machine Learning Engineer.”",
+        "output_label": "One idea it might give you",
+        "output": "Search or backend engineers who built retrieval systems. Check they shipped to production. A weekend RAG demo does not prove it."
+      },
+      "next_steps": [
+        "Try one new title this week",
+        "Look for the evidence, not the title",
+        "Ask the test question on the first call"
+      ]
+    },
+    {
+      "id": "follow-up",
+      "number": "04",
+      "color": "sky",
+      "audience": "For anyone after a conversation",
+      "short_audience": "Anyone",
+      "title": "Stop rewriting the follow-up.",
+      "cover_label": "Nail the follow-up",
+      "trigger": "I just got off a call and owe a follow-up.",
+      "cta": "Send it while it is fresh",
+      "use_when": "You just finished a kickoff, networking call or project chat.",
+      "time": "About 3 min",
+      "have_ready": "A few rough bullets. That is enough.",
+      "prompt": "Turn these rough notes into a short follow-up I can review and send.\n\nUse three sections: Agreed, Still open, Next steps.\nFor each next step, include an owner and a deadline only if my notes say so. Otherwise write \"to confirm\".\n\nKeep maybes separate from commitments. Do not add promises, decisions or dates. Plain, warm language. Under 150 words.\n\nNOTES: {{notes}}",
+      "fields": [
+        {
+          "key": "notes",
+          "label": "Notes",
+          "hint": "paste your bullets"
+        }
+      ],
+      "example": {
+        "input": "“Sam sends the AI Engineer brief Friday. Comp still undecided. Maybe ask Lee to join the next call.”",
+        "output_label": "A good draft keeps it straight",
+        "output": [
+          {
+            "lead": "Agreed:",
+            "text": "Sam, brief, Friday"
+          },
+          {
+            "lead": "Open:",
+            "text": "compensation"
+          },
+          {
+            "lead": "Maybe:",
+            "text": "Lee joins. Not “Lee is coming.”"
+          }
+        ]
+      },
+      "next_steps": [
+        "Check every name, date and promise",
+        "Change one line so it sounds like you",
+        "Hit send yourself, today"
+      ]
+    },
+    {
+      "id": "strip-ai-tells",
+      "number": "B1",
+      "bonus": true,
+      "color": "yellow",
+      "audience": "Bonus · for anything AI writes",
+      "short_audience": "Bonus",
+      "title": "Strip the AI tells.",
+      "step_title": "Strip the AI tells",
+      "trigger": "This sounds like a robot wrote it.",
+      "cta": "Strip the AI tells",
+      "use_when": "The facts are right but the draft reads like a template.",
+      "time": "About 1 min",
+      "have_ready": "The draft",
+      "tells": [
+        "Long dashes ( — )",
+        "“I’d love to”",
+        "“I hope this finds you well”",
+        "“Delve,” “leverage,” “elevate”",
+        "Lists of three, everywhere",
+        "Every sentence the same length"
+      ],
+      "prompt": "Edit this so it does not read like AI wrote it. Remove long dashes, filler openers, buzzwords and anything that sounds like a template. Mix short and long sentences. Keep every fact and do not add new ones.\n\nTEXT: {{text}}",
+      "fields": [
+        {
+          "key": "text",
+          "label": "Text",
+          "hint": "paste the draft"
+        }
+      ],
+      "example": {
+        "input": "“I hope this finds you well! I’d love to connect and explore how we can leverage synergies.”",
+        "output_label": "Sounds like a person",
+        "output": "“Hi Sam, good to meet you at the meetup. Want to grab 20 minutes next week to compare notes on hiring?”"
+      },
+      "next_steps": [
+        "Check the facts survived",
+        "Make sure nothing new was added",
+        "Send it"
+      ],
+      "_lint_ignore": [
+        "tells",
+        "example.input"
+      ]
+    },
+    {
+      "id": "match-my-voice",
+      "number": "B2",
+      "bonus": true,
+      "color": "yellow",
+      "audience": "Bonus · use it on any answer",
+      "short_audience": "Bonus",
+      "title": "Teach it your voice.",
+      "step_title": "Teach it your voice",
+      "trigger": "It’s fine, it just doesn’t sound like me.",
+      "cta": "Make it sound like you",
+      "blurb": "Give it a few things you actually wrote: emails, posts, texts. It picks up your words, your rhythm and your personality, then adapts.",
+      "use_when": "You want every draft to sound like you wrote it.",
+      "time": "About 5 min the first time",
+      "have_ready": "2 or 3 emails or posts you wrote",
+      "prompt": "Below are a few things I wrote myself. Study how I write: word choice, sentence length, how formal I am, how I open and sign off.\n\nThen rewrite my draft so it sounds like me. Match my personality, not just my grammar. Do not copy lines from my samples.\n\nHOW I'D DESCRIBE MY STYLE: {{style}}\nMY SAMPLES: {{samples}}\nDRAFT: {{draft}}",
+      "fields": [
+        {
+          "key": "style",
+          "label": "How I'd describe my style",
+          "hint": "3 words, like direct, warm, a bit funny"
+        },
+        {
+          "key": "samples",
+          "label": "My samples",
+          "hint": "paste or upload 2 or 3 emails or posts"
+        },
+        {
+          "key": "draft",
+          "label": "Draft",
+          "hint": "paste it"
+        }
+      ],
+      "example": {
+        "input": "Three of your own emails, the words “direct, warm, a bit funny” and a stiff intro email.",
+        "output_label": "What changes",
+        "output": "Shorter sentences, your usual sign-off and the kind of line you would actually say. Same facts."
+      },
+      "next_steps": [
+        "Read it out loud",
+        "Fix any line you would never say",
+        "Save your samples in one note for next time"
+      ]
+    }
+  ],
+  "bonus_page": {
+    "kicker": "Bonus · use it on any answer above",
+    "title": "Make it sound like you.",
+    "intro_lead": "AI writing has tells, and people notice.",
+    "intro": "Two quick moves fix most of it.",
+    "pro_move": "Keep your samples in one note so you can reuse them. Many AI tools also let you save your style once so it applies every time.",
+    "last_check": [
+      "Read it out loud",
+      "Fix any line you would never say"
+    ]
+  },
+  "fixes": [
+    {
+      "problem": "Too generic",
+      "color": "lilac",
+      "lead": "Add one real constraint.",
+      "text": "“The team has no dedicated infrastructure engineer” beats “we are a fast-moving startup.”"
+    },
+    {
+      "problem": "Too long",
+      "color": "mint",
+      "reply": "Keep only the three things that change what I do next."
+    },
+    {
+      "problem": "Sounds like a robot",
+      "color": "peach",
+      "reply": "Rewrite this the way I would say it out loud. Shorter sentences.",
+      "note": "Want it to sound exactly like you? Use the bonus voice prompt."
+    }
+  ],
+  "before_you_use": [
+    {
+      "lead": "Facts",
+      "text": "are right"
+    },
+    {
+      "lead": "Nothing",
+      "text": "was assumed"
+    },
+    {
+      "lead": "It sounds",
+      "text": "like you"
+    }
+  ],
+  "closing": {
+    "title": "Try one prompt on one task this week.",
+    "text": "Then spend the time you get back on what AI cannot do for you: a real conversation, a thoughtful reply, or an actual break.",
+    "cta_label": "Say hi:"
+  },
+  "further_reading": "Further reading: Anthropic's prompting best practices at docs.claude.com (checked October 7, 2026). These prompts are starting points and results vary. All examples are made up, not client cases or measured results."
+}

@@ -1,0 +1,59 @@
+[build-system]
+requires = ["hatchling>=1.24"]
+build-backend = "hatchling.build"
+
+[project]
+name = "less-admin-more-human"
+version = "1.1.0"
+description = "Copy-and-paste AI prompts for hiring, built into a PDF guide, a web tool and Markdown, with prompt evals."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT (code); CC BY 4.0 (content)" }
+authors = [{ name = "Genna Greco" }]
+dependencies = ["jinja2>=3.1", "pyyaml>=6.0"]
+
+[project.optional-dependencies]
+pdf = ["playwright>=1.45", "pillow>=10.0"]
+evals = ["anthropic>=0.40"]
+dev = [
+  "less-admin-more-human[pdf,evals]",
+  "pytest>=8",
+  "pytest-cov>=5",
+  "ruff>=0.6",
+  "mypy>=1.10",
+  "types-PyYAML",
+  "pre-commit>=3.7",
+]
+
+[project.scripts]
+lamh = "lamh.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/lamh"]
+
+# ---------- quality gates ----------
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF", "PTH", "N", "C4", "PT", "RET"]
+# The copy uses typographic quotes and middle dots on purpose.
+ignore = ["RUF001", "RUF002", "RUF003"]
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+files = ["src/lamh"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "--cov=lamh --cov-report=term-missing --cov-fail-under=90"
+
+[tool.coverage.run]
+branch = true
+
+[tool.coverage.report]
+exclude_also = ["if __name__ == .__main__.:", "raise NotImplementedError"]
