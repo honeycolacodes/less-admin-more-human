@@ -1,0 +1,35 @@
+{#- Small building blocks shared by every page of the guide. -#}
+
+{% macro color_vars(name) -%}
+{%- set c = colors[name] -%}
+--tint: {{ c.tint }}; --deep: {{ c.deep }}; --label: {{ c.label }}
+{%- endmacro %}
+
+{% macro prompt_box(prompt, compact=false) -%}
+<div class="prompt-box{% if compact %} compact{% endif %}">
+  <div class="prompt-box-head"><span>COPY THIS</span><span>SWAP THE YELLOW PARTS</span></div>
+  <div class="prompt-box-body">{% for kind, value in prompt.segments %}{% if kind == "text" %}{{ value }}{% else %}<span class="fill">[{{ value }}]</span>{% endif %}{% endfor %}</div>
+</div>
+{%- endmacro %}
+
+{% macro check(text, lead=none) -%}
+<div class="check"><span class="box"></span><span>{% if lead %}<strong>{{ lead }}</strong> {% endif %}{{ text }}</span></div>
+{%- endmacro %}
+
+{% macro arrow() -%}
+<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+{%- endmacro %}
+
+{% macro pen() -%}
+<svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19l7-7 3 3-7 7-3-3z"></path><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path><path d="M2 2l7.586 7.586"></path><circle cx="11" cy="11" r="2"></circle></svg>
+{%- endmacro %}
+
+{% macro footer(page, extra="", dots=none) -%}
+<div class="footer">
+  <div>{{ author.name }} · {{ author.role }}{% if extra %} · {{ extra }}{% endif %}</div>
+  {% if dots is not none -%}
+  <div class="dots">{% for i in range(dots.total) %}<span{% if i == dots.current %} class="on"{% endif %}></span>{% endfor %}</div>
+  {%- endif %}
+  <div>{{ "%02d" % page.number }} / {{ "%02d" % page.total }}</div>
+</div>
+{%- endmacro %}

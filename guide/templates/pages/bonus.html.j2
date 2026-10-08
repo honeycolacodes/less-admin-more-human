@@ -1,0 +1,38 @@
+{% import "_macros.html.j2" as m with context %}
+{%- set strip, voice = bonus_prompts[0], bonus_prompts[1] %}
+<section class="page bonus" style="{{ m.color_vars('yellow') }}">
+  <div class="band">
+    <div class="band-icon">{{ m.pen() }}</div>
+    <div class="band-text">
+      <div class="kicker">{{ bonus_page.kicker }}</div>
+      <h1 class="display">{{ bonus_page.title }}</h1>
+    </div>
+  </div>
+
+  <p class="bonus-intro"><strong>{{ bonus_page.intro_lead }}</strong> {{ bonus_page.intro }}</p>
+
+  <div class="section">
+    <div class="move-head"><div class="step-dot">1</div><h2>{{ strip.step_title }}</h2></div>
+    <div class="tells">{% for tell in strip.tells %}<div class="tell">{{ tell }}</div>{% endfor %}</div>
+    {{ m.prompt_box(strip, compact=true) }}
+  </div>
+
+  <div class="section">
+    <div class="move-head"><div class="step-dot">2</div><h2>{{ voice.step_title }}</h2></div>
+    <p class="blurb">{{ voice.blurb }}</p>
+    {{ m.prompt_box(voice, compact=true) }}
+  </div>
+
+  <div class="bonus-foot">
+    <div class="note-card pro">
+      <div class="label">Pro move</div>
+      <div>{{ bonus_page.pro_move }}</div>
+    </div>
+    <div class="note-card check-card">
+      <div class="label">Last check</div>
+      {% for item in bonus_page.last_check %}{{ m.check(item) }}{% endfor %}
+    </div>
+  </div>
+
+  {{ m.footer(page) }}
+</section>

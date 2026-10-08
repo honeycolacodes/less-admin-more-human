@@ -1,0 +1,42 @@
+{% import "_macros.html.j2" as m with context %}
+<section class="page fixes">
+  <div class="intro">
+    <div class="kicker muted">When the answer misses</div>
+    <h1 class="display page-title">Stuck? Quick fixes.</h1>
+  </div>
+
+  <div class="fix-list">
+    {% for fix in fixes %}
+    <div class="fix" style="{{ m.color_vars(fix.color) }}">
+      <div class="fix-name">{{ fix.problem }}</div>
+      <div class="fix-body">
+        {% if fix.lead %}
+        <div><strong>{{ fix.lead }}</strong> {{ fix.text }}</div>
+        {% else %}
+        <strong>Reply with:</strong>
+        <div class="fix-reply">{{ fix.reply }}</div>
+        {% endif %}
+        {% if fix.note %}<div class="fix-note">{{ fix.note }}</div>{% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="before">
+    <div class="kicker">Before you use anything it writes</div>
+    <div class="steps3">{% for item in before_you_use %}{{ m.check(item.text, lead=item.lead) }}{% endfor %}</div>
+  </div>
+
+  <div class="closing">
+    <h2>{{ closing.title }}</h2>
+    <p>{{ closing.text }}</p>
+    <div class="closing-cta">
+      <span>{{ closing.cta_label }}</span>
+      <span class="link">{{ linkedin_display }}</span>
+    </div>
+  </div>
+
+  <p class="further">{{ further_reading }}</p>
+
+  {{ m.footer(page, extra=edition) }}
+</section>

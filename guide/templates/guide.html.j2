@@ -1,0 +1,13 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>{{ title }} · {{ author.name }}</title>
+<link rel="stylesheet" href="{{ stylesheet }}">
+</head>
+<body>
+{% for page in pages %}
+{% include "pages/" ~ page.template ~ ".html.j2" %}
+{% endfor %}
+</body>
+</html>

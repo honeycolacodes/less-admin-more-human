@@ -1,0 +1,44 @@
+{% import "_macros.html.j2" as m with context %}
+{%- set p = page.prompt %}
+<section class="page prompt-page" style="{{ m.color_vars(p.color) }}">
+  <div class="band">
+    <div class="num display">{{ p.number }}</div>
+    <div class="band-text">
+      <div class="kicker">{{ p.audience }}</div>
+      <h1 class="display">{{ p.title }}</h1>
+    </div>
+  </div>
+
+  <div class="meta">
+    <div class="meta-item"><div class="label">Use it when</div><div>{{ p.use_when }}</div></div>
+    <div class="meta-item"><div class="label">Time</div><div>{{ p.time }}</div></div>
+    <div class="meta-item"><div class="label">Have ready</div><div>{{ p.have_ready }}</div></div>
+  </div>
+
+  {{ m.prompt_box(p) }}
+
+  <div class="section">
+    <div class="label">Made-up example</div>
+    <div class="example-grid">
+      <div class="example">
+        <strong class="title">You paste</strong>
+        <div>{{ p.example.input }}</div>
+      </div>
+      <div class="example result">
+        <strong class="title">{{ p.example.output_label }}</strong>
+        {% if p.example.output is string %}
+        <div>{{ p.example.output }}</div>
+        {% else %}
+        <div class="lines">{% for line in p.example.output %}<div><strong>{{ line.lead }}</strong> {{ line.text }}</div>{% endfor %}</div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="label">Then do this</div>
+    <div class="steps3">{% for step in p.next_steps %}{{ m.check(step) }}{% endfor %}</div>
+  </div>
+
+  {{ m.footer(page, dots={"total": main_prompts|length, "current": page.index}) }}
+</section>

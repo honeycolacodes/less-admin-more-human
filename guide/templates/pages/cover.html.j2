@@ -1,0 +1,34 @@
+{% import "_macros.html.j2" as m with context %}
+<section class="page cover">
+  <div class="cover-top kicker">
+    <div>{{ author.name }} · {{ author.role }}</div>
+    <div class="pill-dark">Free guide · {{ edition }}</div>
+  </div>
+
+  <div class="cover-head">
+    {%- set first, second = title.split(". ", 1) %}
+    <h1 class="display"><span class="line">{{ first }}.</span><span class="marked">{{ second }}</span></h1>
+    <p class="tagline">{{ tagline }}</p>
+  </div>
+
+  <div class="chips">
+    {% for chip in cover_chips %}<div class="chip">{{ chip }}</div>{% endfor %}
+  </div>
+
+  <div class="cover-tiles">
+    {% for p in main_prompts %}
+    <div class="cover-tile" style="{{ m.color_vars(p.color) }}">
+      <div class="num display">{{ p.number }}</div>
+      <div>
+        <div class="aud">{{ p.short_audience }}</div>
+        <div class="name">{{ p.cover_label }}</div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="cover-foot">
+    <strong>{{ cover_footer.lead }}</strong>
+    <span class="muted">{{ cover_footer.aside }}</span>
+  </div>
+</section>

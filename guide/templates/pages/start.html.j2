@@ -1,0 +1,37 @@
+{% import "_macros.html.j2" as m with context %}
+<section class="page start">
+  <div class="intro">
+    <div class="kicker muted">Start here</div>
+    <h1 class="display page-title">Pick one. Skip the rest.</h1>
+    <p>No need to read in order. Find the line that sounds like your week and jump to that page.</p>
+  </div>
+
+  <div class="pick-grid">
+    {% for p in main_prompts %}
+    <div class="pick" style="{{ m.color_vars(p.color) }}">
+      <div class="pick-top">
+        <div class="num display">{{ p.number }}</div>
+        <div class="pill-dark">PAGE {{ p.page }}</div>
+      </div>
+      <div class="pick-trigger">“{{ p.trigger }}”</div>
+      <div class="pick-cta">{{ m.arrow() }}<span>{{ p.cta }}</span></div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="how">
+    <div class="kicker">Every prompt works the same way</div>
+    <div class="how-steps">
+      {% for step in how_it_works %}
+      <div class="how-step">
+        <div class="step-dot">{{ loop.index }}</div>
+        <div><strong>{{ step.verb }}</strong> {{ step.text }}</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+
+  <p class="small-print">{{ safety_note }}</p>
+
+  {{ m.footer(page) }}
+</section>
