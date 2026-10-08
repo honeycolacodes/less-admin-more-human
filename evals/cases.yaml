@@ -1,0 +1,188 @@
+# Eval cases for every prompt in data/prompts.json.
+#
+# Each case fills a prompt's blanks with realistic, made-up input, then checks
+# the model's answer keeps the promises the prompt makes.
+#
+# Check types
+#   max_words: N           answer is at most N words (Markdown symbols ignored)
+#   not_contains: [regex]  none of these patterns appear
+#   contains_all: [text]   every one of these appears (case-insensitive)
+#   no_new_dates: true     no dates or deadlines that were not in the input
+#   rubric: "..."          a grader model judges this one yes-or-no criterion
+#
+# Word limits allow about 10% over the prompt's own limit, because models count
+# words differently than the checker does. The point is to catch real overruns.
+
+# ---------- 01 · recruiter call prep ----------
+
+- prompt: recruiter-call-prep
+  name: no-invented-experience
+  inputs:
+    job_post: |
+      Senior Software Engineer, GenAI at a Series B startup. Python, LLM APIs,
+      retrieval (RAG) and evals. You will ship our AI assistant to enterprise
+      customers. Hybrid, three days a week in the San Francisco office.
+    background: |
+      - 6 years building Python APIs
+      - Built an internal RAG prototype for a support team
+      - Led a migration from Flask to FastAPI
+      - Mentored two junior engineers
+      - Have not shipped an LLM feature to production yet
+  checks:
+    - max_words: 550
+    - not_contains: ["—"]
+    - rubric: Gives exactly five questions for the candidate to ask about the role, team or working arrangements.
+    - rubric: Never claims or implies the candidate has shipped LLM features to production, since their background says they have not.
+    - rubric: Does not write word-for-word scripted answers for the candidate to recite.
+
+- prompt: recruiter-call-prep
+  name: flags-a-vague-job-post
+  inputs:
+    job_post: |
+      AI Engineer. Fast-growing AI startup. Competitive pay. Great culture.
+    background: |
+      - 3 years of full-stack work in TypeScript and React
+      - Built a chatbot feature on top of an LLM API
+      - Wrote the team's prompt testing guide
+      - Some Python for data scripts
+      - Looking for a fully remote role
+  checks:
+    - max_words: 550
+    - rubric: Points out that the job post leaves important things unclear, such as the tech stack, level, scope or how many days in the office.
+    - rubric: Does not invent details about the company or role that are not in the job post.
+
+# ---------- 02 · hiring brief ----------
+
+- prompt: hiring-brief
+  name: wish-list-to-brief
+  inputs:
+    notes: |
+      We need a Product Manager for our GenAI assistant. Technical enough to
+      write prompts and read eval results. Pricing experience would be nice.
+      Not sure yet if they report to product or engineering.
+      Ideally they start next quarter.
+  checks:
+    - not_contains: ["—"]
+    - rubric: Separates what the person must deliver in their first six months from essential skills and from skills they could learn on the job.
+    - rubric: Lists open decisions to make before the search, and one of them is who the PM reports to or whether pricing is part of the role.
+    - rubric: Presents any added suggestions as proposals for the team to confirm, not as agreed requirements.
+
+- prompt: hiring-brief
+  name: catches-contradictions
+  inputs:
+    notes: |
+      Need a senior ML engineer to lead our LLM team. Budget is for a junior
+      salary. Must be in the office five days a week, but we tell candidates
+      we are remote-first. Ten years of LLM experience is a must.
+  checks:
+    - rubric: Flags the conflict between wanting a senior leader and having a junior budget.
+    - rubric: Flags the conflict between five days in the office and describing the company as remote-first.
+    - rubric: Questions requiring ten years of LLM experience, since modern LLMs have not been around that long.
+
+# ---------- 03 · adjacent titles ----------
+
+- prompt: adjacent-titles
+  name: keeps-the-non-negotiable
+  inputs:
+    outcomes: Ship LLM features to production, including retrieval pipelines and evals.
+    non_negotiables: Has shipped an LLM feature that real users rely on.
+    titles: Machine Learning Engineer, AI Engineer
+  checks:
+    - max_words: 275
+    - rubric: Suggests exactly three adjacent job titles or backgrounds.
+    - rubric: Keeps shipping an LLM feature to real users as a requirement and says how to check for it, rather than dropping or softening it.
+    - rubric: Does not name any specific real people or companies to recruit from.
+
+- prompt: adjacent-titles
+  name: no-title-equals-skill
+  inputs:
+    outcomes: Own the roadmap for our AI assistant, from answer quality to pricing.
+    non_negotiables: Has shipped a product with an LLM at its core.
+    titles: Product Manager, AI
+  checks:
+    - max_words: 275
+    - rubric: For each suggestion, says what evidence to look for rather than treating the job title as proof of the skill.
+    - rubric: Gives one question per suggestion that could test the overlap in a conversation.
+
+# ---------- 04 · follow-up ----------
+
+- prompt: follow-up
+  name: keeps-maybes-separate
+  inputs:
+    notes: |
+      Sam sends the role brief Friday. Comp still undecided.
+      Maybe ask Lee to join the next call.
+  checks:
+    - max_words: 165
+    - contains_all: ["Agreed", "Still open", "Next steps"]
+    - no_new_dates: true
+    - rubric: Presents Lee joining as a possibility, not as something already agreed.
+    - rubric: Keeps compensation as an open question rather than a decision.
+
+- prompt: follow-up
+  name: no-invented-owners
+  inputs:
+    notes: |
+      Talked about moving the launch. Someone should update the pitch deck.
+      Pricing feedback from the pilot was mixed. Want to regroup soon.
+  checks:
+    - max_words: 165
+    - contains_all: ["Agreed", "Still open", "Next steps", "to confirm"]
+    - no_new_dates: true
+    - rubric: Does not assign an owner or deadline to any next step, because the notes do not name one.
+    - rubric: Does not state that the launch has been moved or set a new launch date.
+
+# ---------- B1 · strip the AI tells ----------
+
+- prompt: strip-ai-tells
+  name: removes-tells-keeps-facts
+  inputs:
+    text: |
+      I hope this email finds you well! It was great meeting you at Tuesday's
+      AI meetup — I'd love to connect and explore how we can leverage
+      synergies around hiring for your team. Let me know if you'd be open to a
+      quick chat next week!
+  checks:
+    - not_contains: ["—", "(?i)finds you well", "(?i)i[’']d love to", "(?i)leverag", "(?i)synerg"]
+    - no_new_dates: true
+    - rubric: Keeps the facts from the original (meeting at Tuesday's AI meetup, hiring for their team, a chat next week) and adds no new facts.
+
+- prompt: strip-ai-tells
+  name: keeps-numbers
+  inputs:
+    text: |
+      In today's fast-paced world, our team is thrilled to delve into Q3.
+      We closed 14 roles, cut time-to-hire from 41 to 29 days, and we are
+      excited to unlock even more seamless hiring in Q4.
+  checks:
+    - not_contains: ["—", "(?i)fast-paced", "(?i)delve", "(?i)unlock", "(?i)seamless"]
+    - contains_all: ["14", "41", "29"]
+    - rubric: Keeps every number and fact from the original and adds none.
+
+# ---------- B2 · teach it your voice ----------
+
+- prompt: match-my-voice
+  name: adopts-a-casual-voice
+  inputs:
+    style: direct, warm, a bit funny
+    samples: |
+      Hey Priya, quick one: can we push our sync to 3? My 2 o'clock is
+      running long, as they do. Talk soon, J
+
+      Morning! Loved your post on referral programs. Stealing the
+      "bring a friend, get a coffee budget" idea. Talk soon, J
+
+      Hi Marcus, thanks for the intro to Dana. Coffee is on me next time,
+      I owe you at least two by now. Talk soon, J
+    draft: |
+      Dear Hiring Team,
+      I am writing to formally express my interest in collaborating on your
+      upcoming engineering hiring initiatives. I would welcome the
+      opportunity to discuss how my sourcing services may be of assistance.
+      Kind regards,
+      Jordan
+  checks:
+    - not_contains: ["—", "(?i)formally express"]
+    - rubric: Sounds casual, direct and warm like the writing samples, not formal or corporate.
+    - rubric: Keeps the draft's core message (interest in helping with their engineering hiring and an offer to talk) and invents no new facts.
+    - rubric: Does not copy whole sentences from the writing samples.
