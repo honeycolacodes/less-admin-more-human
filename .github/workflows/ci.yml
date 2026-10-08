@@ -1,0 +1,86 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Lint, types and tests (Python ${{ matrix.python }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      # Node runs the Python/JavaScript parity test.
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Install
+        run: pip install -e ".[dev]"
+
+      - name: Lint
+        run: |
+          ruff check .
+          ruff format --check .
+
+      - name: Type check (mypy strict)
+        run: mypy
+
+      - name: Tests (coverage must stay above 90%)
+        run: pytest
+
+      - name: Check content for errors and AI tells
+        run: lamh check
+
+      - name: Confirm Markdown prompts match the data
+        run: |
+          lamh prompts
+          if ! git diff --exit-code -- prompts/; then
+            echo "::error::prompts/ is out of date. Run 'lamh prompts' and commit the result."
+            exit 1
+          fi
+
+      - name: Eval cases are valid
+        run: lamh eval --dry-run > /dev/null
+
+  pdf:
+    name: Build the PDF guide
+    needs: quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Install
+        run: |
+          pip install -e ".[pdf]"
+          python -m playwright install --with-deps chromium
+
+      - name: Build (fails if any page overflows its sheet)
+        run: lamh pdf --no-preview
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: less-admin-more-human-pdf
+          path: dist/less-admin-more-human.pdf

@@ -1,0 +1,62 @@
+name: Prompt evals
+
+# Runs each prompt against Claude and grades the answers.
+# Needs a repository secret named ANTHROPIC_API_KEY. Without it, the job skips cleanly.
+
+on:
+  workflow_dispatch:
+    inputs:
+      model:
+        description: Model that answers the prompts
+        default: claude-sonnet-5-5
+      only:
+        description: Only these prompt ids (space separated, optional)
+        default: ""
+  push:
+    branches: [main]
+    paths:
+      - data/prompts.json
+      - evals/**
+      - src/lamh/evals/**
+
+concurrency:
+  group: evals
+  cancel-in-progress: false
+
+jobs:
+  evals:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: pyproject.toml
+
+      - name: Install
+        run: pip install -e ".[evals]"
+
+      - name: Run evals
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # Inputs go through env vars, never straight into the script.
+          MODEL: ${{ inputs.model }}
+          ONLY: ${{ inputs.only }}
+        run: |
+          args=(--skip-if-no-key --model "${MODEL:-claude-sonnet-5-5}")
+          if [ -n "$ONLY" ]; then
+            read -ra ids <<< "$ONLY"
+            args+=(--only "${ids[@]}")
+          fi
+          lamh eval "${args[@]}"
+
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: eval-results
+          path: evals/results/latest.json
+          if-no-files-found: ignore

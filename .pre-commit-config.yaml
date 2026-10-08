@@ -1,0 +1,42 @@
+# Runs on every commit after `pre-commit install` (or `make install`).
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      # Generated pages and upstream font licenses stay exactly as written.
+      - id: trailing-whitespace
+        exclude: ^(prompts/|guide/fonts/)
+      - id: end-of-file-fixer
+        exclude: ^guide/fonts/
+      - id: check-yaml
+      - id: check-json
+      - id: check-added-large-files
+        args: ["--maxkb=1024"]
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.16.10
+    hooks:
+      - id: ruff-check
+        args: ["--fix"]
+      - id: ruff-format
+
+  - repo: local
+    hooks:
+      - id: mypy
+        name: mypy (strict)
+        entry: mypy
+        language: system
+        types: [python]
+        pass_filenames: false
+      - id: lamh-check
+        name: check prompts for errors and AI tells
+        entry: lamh check
+        language: system
+        pass_filenames: false
+        files: ^(data/prompts\.json|README\.md|CONTRIBUTING\.md)$
+      - id: lamh-prompts
+        name: regenerate Markdown prompts
+        entry: lamh prompts
+        language: system
+        pass_filenames: false
+        files: ^data/prompts\.json$
