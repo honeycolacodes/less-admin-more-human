@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Less admin. More human. · AI prompts for hiring</title>
+<meta name="description" content="Copy-and-paste AI prompts for job seekers, founders and hiring teams. Fill in the blanks, copy, done.">
+<meta property="og:title" content="Less admin. More human.">
+<meta property="og:description" content="Copy-and-paste AI prompts for job seekers, founders and hiring teams.">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&amp;family=Atkinson+Hyperlegible:wght@400;700&amp;family=JetBrains+Mono:wght@400;700&amp;display=swap">
+<link rel="stylesheet" href="styles.css">
+<script src="render.js" defer></script>
+<script src="app.js" defer></script>
+</head>
+<body>
+<a class="skip-link" href="#pick">Skip to the prompts</a>
+
+<header class="hero wrap">
+  <div class="topbar">
+    <span class="kicker" id="byline"></span>
+    <a class="btn btn-dark" href="less-admin-more-human.pdf" download>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v12"></path><path d="M6 11l6 6 6-6"></path><path d="M5 20h14"></path></svg>
+      <span>Download the PDF</span>
+    </a>
+  </div>
+  <h1 class="display"><span class="line">Less admin.</span> <span class="marked">More human.</span></h1>
+  <p class="tagline" id="tagline"></p>
+  <ul class="chips" id="chips"></ul>
+  <p class="privacy">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
+    Nothing you type here leaves your browser.
+  </p>
+</header>
+
+<main>
+  <section id="pick" class="wrap section" aria-labelledby="pick-title">
+    <div class="kicker muted">Start here</div>
+    <h2 id="pick-title" class="display section-title">Pick one. Skip the rest.</h2>
+    <p class="lede">Find the line that sounds like your week. You fill in the blanks, it builds the prompt.</p>
+    <div class="pick-grid" id="pick-grid"></div>
+    <ol class="how" id="how"></ol>
+  </section>
+
+  <section id="workspace" class="wrap section workspace" aria-labelledby="ws-title" hidden></section>
+
+  <section id="fixes" class="wrap section" aria-labelledby="fixes-title">
+    <div class="kicker muted">When the answer misses</div>
+    <h2 id="fixes-title" class="display section-title">Stuck? Quick fixes.</h2>
+    <div class="fix-list" id="fix-list"></div>
+    <div class="before">
+      <div class="kicker">Before you use anything it writes</div>
+      <ul class="before-list" id="before-list"></ul>
+    </div>
+  </section>
+
+  <section class="wrap section">
+    <div class="closing">
+      <h2 class="display" id="closing-title"></h2>
+      <p id="closing-text"></p>
+      <p class="closing-cta" id="closing-cta" hidden></p>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <div class="site-footer">
+    <p id="footer-credit"></p>
+    <p class="muted" id="footer-note"></p>
+  </div>
+</footer>
+
+<noscript><p class="wrap">This page needs JavaScript to fill in the prompts. You can still <a href="less-admin-more-human.pdf">download the PDF</a>.</p></noscript>
+</body>
+</html>
